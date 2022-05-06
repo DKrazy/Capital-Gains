@@ -45,7 +45,5 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         rb2d.MovePosition(rb2d.position + playerSpeed * Time.deltaTime);
-
-        Debug.Log(transform.position);
     }
 }
