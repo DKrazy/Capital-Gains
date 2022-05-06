@@ -4,25 +4,48 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] public float playerSpeed;
+    [SerializeField] public float movementSpeed;
+    public Vector2 playerSpeed;
 
-    void Update()
+    public Rigidbody2D rb2d;
+
+    private void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
     {
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y + playerSpeed, transform.position.z);
+            playerVelocity = new Vector2(playerVelocity.x, movementSpeed);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            playerVelocity = new Vector2(playerVelocity.x, -movementSpeed);
+        }
+        else
+        {
+            playerVelocity = new Vector2(playerVelocity.x, 0);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position = new Vector3(transform.position.x - playerSpeed, transform.position.y, transform.position.z);
+            playerVelocity = new Vector2(-movementSpeed, playerVelocity.y);
         }
-        if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.D))
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y - playerSpeed, transform.position.z);
+            playerVelocity = new Vector2(movementSpeed, playerVelocity.y);
         }
-        if (Input.GetKey(KeyCode.D))
+        else
         {
-            transform.position = new Vector3(transform.position.x + playerSpeed, transform.position.y, transform.position.z);
+            playerVelocity = new Vector2(0, playerVelocity.y);
         }
+    }
+
+    void FixedUpdate()
+    {
+        rb2d.MovePosition(rb2d.position + playerVelocity * Time.deltaTime);
+
+        Debug.Log(transform.position);
     }
 }
