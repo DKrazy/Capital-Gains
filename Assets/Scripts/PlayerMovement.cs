@@ -18,33 +18,33 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            playerVelocity = new Vector2(playerVelocity.x, movementSpeed);
+            playerSpeed = new Vector2(playerSpeed.x, movementSpeed);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            playerVelocity = new Vector2(playerVelocity.x, -movementSpeed);
+            playerSpeed = new Vector2(playerSpeed.x, -movementSpeed);
         }
         else
         {
-            playerVelocity = new Vector2(playerVelocity.x, 0);
+            playerSpeed = new Vector2(playerSpeed.x, 0);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            playerVelocity = new Vector2(-movementSpeed, playerVelocity.y);
+            playerSpeed = new Vector2(-movementSpeed, playerSpeed.y);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            playerVelocity = new Vector2(movementSpeed, playerVelocity.y);
+            playerSpeed = new Vector2(movementSpeed, playerSpeed.y);
         }
         else
         {
-            playerVelocity = new Vector2(0, playerVelocity.y);
+            playerSpeed = new Vector2(0, playerSpeed.y);
         }
     }
 
     void FixedUpdate()
     {
-        rb2d.MovePosition(rb2d.position + playerVelocity * Time.deltaTime);
+        rb2d.MovePosition(rb2d.position + playerSpeed * Time.deltaTime);
 
         Debug.Log(transform.position);
     }

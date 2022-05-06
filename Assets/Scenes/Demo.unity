@@ -662,7 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 10
-  playerVelocity: {x: 0, y: 0}
+  playerSpeed: {x: 0, y: 0}
   rb2d: {fileID: 0}
 --- !u!50 &1108194678
 Rigidbody2D:
