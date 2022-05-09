@@ -5,9 +5,10 @@ using UnityEngine;
 public class CameraControl : MonoBehaviour
 {
     public GameObject Character;
-    public float targetZoom;
-    public float zoomFactor = 3;
-    public float zoomLerpSpeed;
+
+    float targetZoom;
+    [SerializeField] float zoomFactor;
+    [SerializeField] float zoomLerpSpeed;
 
     private void Start()
     {
