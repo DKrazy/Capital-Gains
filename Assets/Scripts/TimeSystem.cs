@@ -7,16 +7,21 @@ public class TimeSystem : MonoBehaviour
 {
     public GameObject Clock;
 
+    public int timeWarpSetting = 1;
+
     float time;
     float minutes;
     float hours;
+    float timeWarp;
 
     string clockMinutes;
     string clockHours;
 
     private void Update()
     {
-        time += Time.deltaTime;
+        timeWarp = timeWarpSetting * Time.deltaTime;
+
+        time += timeWarp;
 
         if (time >= 60 * (hours + 1))
         {

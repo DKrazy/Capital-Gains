@@ -519,7 +519,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 730, y: -453.72845}
+  m_AnchoredPosition: {x: 731.9, y: 453.73}
   m_SizeDelta: {x: 434.9045, y: 172.5431}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400341646
@@ -549,7 +549,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 100
-    m_Alignment: 8
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -693,8 +693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Clock: {fileID: 400341644}
-  timeMinutes: 0
-  timeHours: 0
+  timeWarpSetting: 1
 --- !u!4 &536388391
 Transform:
   m_ObjectHideFlags: 0
@@ -888,6 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36bf0b1d63fde0d4791a752351ec7437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeSystem: {fileID: 536388389}
   movementSpeed: 10
   playerSpeed: {x: 0, y: 0}
   rb2d: {fileID: 0}

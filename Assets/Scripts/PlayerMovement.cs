@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public GameObject TimeSystem;
+
     [SerializeField] float movementSpeed;
+
+    int timeWarpSetting;
+
     public Vector2 playerSpeed;
 
     public Rigidbody2D rb2d;
@@ -16,13 +21,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        timeWarpSetting = TimeSystem.GetComponent<TimeSystem>().timeWarpSetting;
+
         if (Input.GetKey(KeyCode.W))
         {
-            playerSpeed = new Vector2(playerSpeed.x, movementSpeed);
+            playerSpeed = new Vector2(playerSpeed.x, movementSpeed * timeWarpSetting);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            playerSpeed = new Vector2(playerSpeed.x, -movementSpeed);
+            playerSpeed = new Vector2(playerSpeed.x, -movementSpeed * timeWarpSetting);
         }
         else
         {
@@ -30,11 +37,11 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.A))
         {
-            playerSpeed = new Vector2(-movementSpeed, playerSpeed.y);
+            playerSpeed = new Vector2(-movementSpeed * timeWarpSetting, playerSpeed.y);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            playerSpeed = new Vector2(movementSpeed, playerSpeed.y);
+            playerSpeed = new Vector2(movementSpeed * timeWarpSetting, playerSpeed.y);
         }
         else
         {
