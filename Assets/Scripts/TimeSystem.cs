@@ -17,6 +17,8 @@ public class TimeSystem : MonoBehaviour
     string clockMinutes;
     string clockHours;
 
+    [SerializeField] bool euroClock;
+
     private void Update()
     {
         timeWarp = timeWarpSetting * Time.deltaTime;
@@ -39,15 +41,39 @@ public class TimeSystem : MonoBehaviour
             clockMinutes = minutes.ToString();
         }
 
-        if (hours < 10)
-        {
-            clockHours = "0" + hours.ToString();
-        }
-        else
+        //I think if the entire world used 24 hour clocks, programmers wouldn't have to deal with all this shit.
+        if (euroClock)
         {
             clockHours = hours.ToString();
+
+            Clock.GetComponent<Text>().text = clockHours + ":" + clockMinutes;
         }
 
-        Clock.GetComponent<Text>().text = clockHours + ":" + clockMinutes;
+        //This implementation of a 12 hour clock is a complete mess, but it works and that's all that matters.
+        if (!euroClock)
+        {
+            if (hours == 0 || hours == 12)
+            {
+                clockHours = "12";
+            }
+            else if (hours > 0 && hours <= 12)
+            {
+                clockHours = hours.ToString();
+            }
+
+            if (hours < 12)
+            {
+                Clock.GetComponent<Text>().text = clockHours + ":" + clockMinutes + " AM";
+            }
+            else if (hours > 12)
+            {
+                clockHours = (hours - 12).ToString();
+            }
+
+            if (hours >= 12)
+            {
+                Clock.GetComponent<Text>().text = clockHours + ":" + clockMinutes + " PM";
+            }
+        }
     }
 }

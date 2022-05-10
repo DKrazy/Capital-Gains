@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     {
         timeWarpSetting = TimeSystem.GetComponent<TimeSystem>().timeWarpSetting;
 
+        //I have a feeling I made things way more complicated than they needed to be here.
         if (Input.GetKey(KeyCode.W))
         {
             playerSpeed = new Vector2(playerSpeed.x, movementSpeed * timeWarpSetting);

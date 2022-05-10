@@ -846,6 +846,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Clock: {fileID: 400341644}
   timeWarpSetting: 1
+  time: 0
+  minutes: 0
+  hours: 0
+  euroClock: 0
 --- !u!4 &536388391
 Transform:
   m_ObjectHideFlags: 0
@@ -1425,7 +1429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeSystem: {fileID: 536388389}
-  movementSpeed: 10
+  movementSpeed: 3
   playerSpeed: {x: 0, y: 0}
   rb2d: {fileID: 0}
 --- !u!50 &1108194678
@@ -1440,7 +1444,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0

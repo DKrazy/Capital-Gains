@@ -17,6 +17,7 @@ public class CameraControl : MonoBehaviour
 
     private void Update()
     {
+        //I'ma be honest, I took all of this from a tutorial.
         float scrollData = Input.GetAxis("Mouse ScrollWheel");
         targetZoom -= scrollData * zoomFactor;
         targetZoom = Mathf.Clamp(targetZoom, 2, 20);
