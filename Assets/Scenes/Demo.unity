@@ -846,9 +846,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Clock: {fileID: 400341644}
   timeWarpSetting: 1
-  time: 0
-  minutes: 0
-  hours: 0
   euroClock: 0
 --- !u!4 &536388391
 Transform:

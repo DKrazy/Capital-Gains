@@ -75,5 +75,13 @@ public class TimeSystem : MonoBehaviour
                 Clock.GetComponent<Text>().text = clockHours + ":" + clockMinutes + " PM";
             }
         }
+
+        if (time >= 1440)
+        {
+            time = 0;
+
+            minutes = 0;
+            hours = 0;
+        }
     }
 }
