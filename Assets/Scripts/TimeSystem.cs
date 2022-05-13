@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class TimeSystem : MonoBehaviour
 {
     public GameObject Clock;
+    public GameObject DayCounter;
 
     public int timeWarpSetting = 1;
+    public int day;
 
     float time;
     float minutes;
@@ -76,12 +78,16 @@ public class TimeSystem : MonoBehaviour
             }
         }
 
+        DayCounter.GetComponent<Text>().text = "Day " + day.ToString();
+
         if (time >= 1440)
         {
-            time = 0;
+            day++;
 
             minutes = 0;
             hours = 0;
+
+            time = 0;
         }
     }
 }
