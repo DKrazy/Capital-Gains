@@ -9,13 +9,6 @@ public class EuroClockToggle : MonoBehaviour
 
     private void Update()
     {
-        if (GetComponent<Toggle>().isOn)
-        {
-            TimeSystem.GetComponent<TimeSystem>().euroClock = true;
-        }
-        else
-        {
-            TimeSystem.GetComponent<TimeSystem>().euroClock = false;
-        }
+        TimeSystem.GetComponent<TimeSystem>().euroClock = GetComponent<Toggle>().isOn;
     }
 }
