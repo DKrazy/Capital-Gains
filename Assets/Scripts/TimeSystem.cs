@@ -19,7 +19,7 @@ public class TimeSystem : MonoBehaviour
     string clockMinutes;
     string clockHours;
 
-    [SerializeField] public bool euroClock;
+    public bool euroClock;
 
     private void Update()
     {
