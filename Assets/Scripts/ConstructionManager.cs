@@ -39,9 +39,25 @@ public class ConstructionManager : MonoBehaviour
     ConstructableObject[] objectIDs = new ConstructableObject[objects];
     public Sprite[] sprites = new Sprite[objects];
 
+    ConstructableObject[,] grid = new ConstructableObject[100, 100];
+
     private void Awake()
     {
         AssignObjectIDs();
+    }
+
+    private void Start()
+    {
+        //Creates a starting grid of air tiles, 100x100. From there you can change whatever is on the grid.
+        for (int a = -50; a <= 50; a++)
+        {
+            ConstructNewObject(objectIDs[0], new Vector3(a, 0, 0));
+
+            for (int b = -50; b <= 50; b++)
+            {
+                ConstructNewObject(objectIDs[0], new Vector3(a, b, 0));
+            }
+        }
     }
 
     private void Update()
@@ -64,7 +80,7 @@ public class ConstructionManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && constructionMode)
         {
-            ConstructNewObject(objectIDs[selectedID]);
+            ConstructNewObject(objectIDs[selectedID], worldPosition);
         }
 
         Debug.Log(worldPosition);
@@ -77,32 +93,33 @@ public class ConstructionManager : MonoBehaviour
         objectIDs[2] = new ConstructableObject("floor", 2, sprites[2], false);
     }
 
-    void ConstructNewObject(ConstructableObject objectProperties)
+    void ConstructNewObject(ConstructableObject objectProperties, Vector3 position)
     {
         int objectID = objectProperties.id;
 
         GameObject ConstructedObject = new GameObject();
 
-        ConstructedObject.GetComponent<Transform>().position = new Vector3(worldPosition.x, worldPosition.y, 0);
+        ConstructedObject.GetComponent<Transform>().position = position;
 
         ConstructedObject.AddComponent<SpriteRenderer>();
         ConstructedObject.AddComponent<BoxCollider2D>();
-        ConstructedObject.AddComponent<Rigidbody2D>();
 
         ConstructedObject.GetComponent<SpriteRenderer>().sprite = sprites[objectID];
         ConstructedObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Sliced;
         ConstructedObject.GetComponent<SpriteRenderer>().size = new Vector2(1, 1);
+
         ConstructedObject.GetComponent<BoxCollider2D>().enabled = objectProperties.collide;
         ConstructedObject.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
-        ConstructedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
         if (objectProperties.collide)
         {
-            ConstructedObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            ConstructedObject.AddComponent<Rigidbody2D>();
+            ConstructedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         }
-        else
+
+        if (objectProperties.id == 0)
         {
-            ConstructedObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            ConstructedObject.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 }
