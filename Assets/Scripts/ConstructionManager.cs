@@ -4,53 +4,105 @@ using UnityEngine;
 
 public class ConstructionManager : MonoBehaviour
 {
+    //This is a primitive implementation of the construction system. Everything here is subject to change.
+
+    public static int objects = 3;
+
+    Vector3 worldPosition;
+
+    public int selectedID;
+
+    [SerializeField] bool constructionMode = false;
+
     //It took me so fucking long to figure out how to use structs, but now that I know I've got to say it's
     //helping me out a lot.
     public struct ConstructableObject
     {
         public string name;
+        public int id;
 
-        public Vector2 position;
-
-        public SpriteRenderer spRd;
-
-        public BoxCollider2D collider;
-        public Rigidbody2D rb2D;
+        public Sprite spRd;
 
         public bool collide;
 
-        public ConstructableObject(string n, Vector2 pos, SpriteRenderer spRen, BoxCollider2D coldr, Rigidbody2D rb2Dim, bool col)
+        public ConstructableObject(string n, int iD, Sprite sprt, bool col)
         {
             //I still don't really understand why structs are like this, but it works, so whatever.
 
             name = n;
-            position = pos;
-            spRd = spRen;
-            collider = coldr;
-            rb2D = rb2Dim;
+            id = iD;
+            spRd = sprt;
             collide = col;
-
-            collider.enabled = collide;
-
-            if (collide)
-            {
-                rb2D.bodyType = RigidbodyType2D.Dynamic;
-            }
-            else
-            {
-                rb2D.bodyType = RigidbodyType2D.Static;
-            }
         }
     }
 
-    [SerializeField] BoxCollider2D coldr;
-    [SerializeField] Rigidbody2D rgdBdy;
+    ConstructableObject[] objectIDs = new ConstructableObject[objects];
+    public Sprite[] sprites = new Sprite[objects];
 
-    public List<ConstructableObject> objectIDs = new List<ConstructableObject>();
-    public List<Sprite> sprites;
+    private void Awake()
+    {
+        AssignObjectIDs();
+    }
+
+    private void Update()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.nearClipPlane;
+        worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        //This cycles through the different object IDs you can place. Just a placeholder while I develop a better
+        //system.
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            selectedID++;
+
+            if (selectedID >= objects)
+            {
+                selectedID = 0;
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0) && constructionMode)
+        {
+            ConstructNewObject(objectIDs[selectedID]);
+        }
+
+        Debug.Log(worldPosition);
+    }
 
     void AssignObjectIDs()
     {
-        objectIDs[0] = new ConstructableObject("air", Input.mousePosition, new SpriteRenderer(), coldr, rgdBdy, false);
+        objectIDs[0] = new ConstructableObject("air", 0, sprites[0], false);
+        objectIDs[1] = new ConstructableObject("wall", 1, sprites[1], true);
+        objectIDs[2] = new ConstructableObject("floor", 2, sprites[2], false);
+    }
+
+    void ConstructNewObject(ConstructableObject objectProperties)
+    {
+        int objectID = objectProperties.id;
+
+        GameObject ConstructedObject = new GameObject();
+
+        ConstructedObject.GetComponent<Transform>().position = new Vector3(worldPosition.x, worldPosition.y, 0);
+
+        ConstructedObject.AddComponent<SpriteRenderer>();
+        ConstructedObject.AddComponent<BoxCollider2D>();
+        ConstructedObject.AddComponent<Rigidbody2D>();
+
+        ConstructedObject.GetComponent<SpriteRenderer>().sprite = sprites[objectID];
+        ConstructedObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Sliced;
+        ConstructedObject.GetComponent<SpriteRenderer>().size = new Vector2(1, 1);
+        ConstructedObject.GetComponent<BoxCollider2D>().enabled = objectProperties.collide;
+        ConstructedObject.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
+        ConstructedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
+        if (objectProperties.collide)
+        {
+            ConstructedObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        }
+        else
+        {
+            ConstructedObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        }
     }
 }
