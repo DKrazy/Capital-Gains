@@ -48,12 +48,12 @@ public class ConstructionManager : MonoBehaviour
 
     private void Start()
     {
-        //Creates a starting grid of air tiles, 100x100. From there you can change whatever is on the grid.
-        for (int a = -50; a <= 50; a++)
+        //Creates a starting grid of air tiles, 50x50. From there you can change whatever is on the grid.
+        for (int a = -25; a <= 25; a++)
         {
             ConstructNewObject(objectIDs[0], new Vector3(a, 0, 0));
 
-            for (int b = -50; b < 50; b++)
+            for (int b = -25; b < 25; b++)
             {
                 ConstructNewObject(objectIDs[0], new Vector3(a, b, 0));
             }
