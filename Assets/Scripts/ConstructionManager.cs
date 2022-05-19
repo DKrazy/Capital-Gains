@@ -53,7 +53,7 @@ public class ConstructionManager : MonoBehaviour
         {
             ConstructNewObject(objectIDs[0], new Vector3(a, 0, 0));
 
-            for (int b = -50; b <= 50; b++)
+            for (int b = -50; b < 50; b++)
             {
                 ConstructNewObject(objectIDs[0], new Vector3(a, b, 0));
             }
