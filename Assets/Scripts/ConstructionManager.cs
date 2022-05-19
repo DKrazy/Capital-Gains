@@ -39,7 +39,7 @@ public class ConstructionManager : MonoBehaviour
     ConstructableObject[] objectIDs = new ConstructableObject[objects];
     public Sprite[] sprites = new Sprite[objects];
 
-    ConstructableObject[,] grid = new ConstructableObject[100, 100];
+    ConstructableObject[,] grid = new ConstructableObject[50, 50];
 
     private void Awake()
     {
