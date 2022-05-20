@@ -84,7 +84,7 @@ public class ConstructionManager : MonoBehaviour
 
         Vector3 worldPositionRnd = new Vector3(Mathf.Round(worldPosition.x), Mathf.Round(worldPosition.y), 0);
 
-        bool inGrid = (worldPositionRnd.x < 50 && worldPosition.x >= 0) && (worldPositionRnd.y < 50 && worldPosition.y >= 0);
+        bool inGrid = (worldPositionRnd.x < 50 && worldPositionRnd.x >= 0) && (worldPositionRnd.y < 50 && worldPositionRnd.y >= 0);
 
         if (Input.GetMouseButtonDown(0) && constructionMode && inGrid)
         {
@@ -109,8 +109,6 @@ public class ConstructionManager : MonoBehaviour
 
     void ConstructNewObject(ConstructableObject objectProperties, Vector3 position)
     {
-        int objectID = objectProperties.id;
-
         GameObject ConstructedObject = new GameObject();
 
         ConstructedObject.GetComponent<Transform>().position = position;
