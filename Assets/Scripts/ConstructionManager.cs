@@ -6,14 +6,14 @@ public class ConstructionManager : MonoBehaviour
 {
     //This is a primitive implementation of the construction system. Everything here is subject to change.
 
-    public static int objects = 3;
+    readonly static int objects = 3;
 
     Vector3 worldPosition;
 
-    static int grdX = 50;
-    static int grdY = 50;
+    readonly static int grdX = 50;
+    readonly static int grdY = 50;
 
-    public int selectedID;
+    int selectedID;
 
     [SerializeField] bool constructionMode = false;
 
@@ -82,13 +82,16 @@ public class ConstructionManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && constructionMode)
+        Vector3 worldPositionRnd = new Vector3(Mathf.Round(worldPosition.x), Mathf.Round(worldPosition.y), 0);
+
+        bool inGrid = (worldPositionRnd.x < 50 && worldPosition.x >= 0) && (worldPositionRnd.y < 50 && worldPosition.y >= 0);
+
+        if (Input.GetMouseButtonDown(0) && constructionMode && inGrid)
         {
-            Vector3 worldPositionRnd = new Vector3(Mathf.Round(worldPosition.x), Mathf.Round(worldPosition.y), 0);
-            ConstructNewObject(objectIDs[selectedID], worldPositionRnd);
+            ChangeObjectID((int)worldPositionRnd.x, (int)worldPositionRnd.y, objectIDs[selectedID]);
         }
 
-        Debug.Log(gridObjects[0,0]);
+        Debug.Log(worldPositionRnd);
     }
 
     void AssignObjectIDs()
@@ -118,13 +121,14 @@ public class ConstructionManager : MonoBehaviour
         ConstructedObject.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
 
         ConstructedObject.GetComponent<ObjectData>().id = objectProperties.id;
+        ConstructedObject.GetComponent<ObjectData>().idName = objectProperties.name;
         ConstructedObject.GetComponent<ObjectData>().x = position.x;
         ConstructedObject.GetComponent<ObjectData>().y = position.y;
 
         int x = (int)ConstructedObject.GetComponent<ObjectData>().x;
         int y = (int)ConstructedObject.GetComponent<ObjectData>().y;
 
-        ConstructedObject.gameObject.name = $"{x}:{y}";
+        ConstructedObject.name = $"{x}:{y}";
 
         if (objectProperties.collide)
         {
@@ -140,5 +144,41 @@ public class ConstructionManager : MonoBehaviour
         gridIDs[x, y] = ConstructedObject.GetComponent<ObjectData>().id;
 
         gridObjects[x, y] = ConstructedObject;
+    }
+
+    void ChangeObjectID(int x, int y, ConstructableObject newObjectProperties)
+    {
+        GameObject targetObject = gridObjects[x, y];
+
+        targetObject.GetComponent<ObjectData>().id = newObjectProperties.id;
+        targetObject.GetComponent<ObjectData>().idName = newObjectProperties.name;
+
+        targetObject.GetComponent<SpriteRenderer>().sprite = sprites[newObjectProperties.id];
+
+        bool notAir = newObjectProperties.id != 0;
+
+        targetObject.GetComponent<SpriteRenderer>().enabled = notAir;
+
+        bool hasCollision = targetObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb2D);
+
+        if (newObjectProperties.collide != hasCollision)
+        {
+            if (hasCollision)
+            {
+                Destroy(rb2D);
+            }
+            if (!hasCollision)
+            {
+                targetObject.AddComponent<Rigidbody2D>();
+
+                targetObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            }
+        }
+
+        targetObject.GetComponent<BoxCollider2D>().enabled = newObjectProperties.collide;
+
+        gridIDs[x, y] = targetObject.GetComponent<ObjectData>().id;
+
+        Debug.LogWarning($"ID changed at {x}, {y}");
     }
 }
