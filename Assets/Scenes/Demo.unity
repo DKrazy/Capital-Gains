@@ -1880,7 +1880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7926c8408c8ba184aa63a92eb64409ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedID: 0
   constructionMode: 0
   sprites:
   - {fileID: 21300000, guid: 4c9f6402ff35ea14787ffedd5d09c9e6, type: 3}

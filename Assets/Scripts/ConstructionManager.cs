@@ -24,14 +24,17 @@ public class ConstructionManager : MonoBehaviour
         public string name;
         public int id;
 
+        public Sprite sprite;
+
         public bool collide;
 
-        public ConstructableObject(string n, int iD, bool col)
+        public ConstructableObject(string n, int iD, Sprite sprt, bool col)
         {
             //I still don't really understand why structs are like this, but it works, so whatever.
 
             name = n;
             id = iD;
+            sprite = sprt;
             collide = col;
         }
     }
@@ -85,7 +88,13 @@ public class ConstructionManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && constructionMode && inGrid)
         {
-            ChangeObjectID((int)worldPositionRnd.x, (int)worldPositionRnd.y, objectIDs[selectedID]);
+            int x = (int)worldPositionRnd.x;
+            int y = (int)worldPositionRnd.y;
+
+            if(gridIDs[x, y] == 0 || selectedID == 0)
+            {
+                ChangeObjectID((int)worldPositionRnd.x, (int)worldPositionRnd.y, objectIDs[selectedID]);
+            }
         }
 
         Debug.Log(worldPositionRnd);
@@ -93,9 +102,9 @@ public class ConstructionManager : MonoBehaviour
 
     void AssignObjectIDs()
     {
-        objectIDs[0] = new ConstructableObject("air", 0, false);
-        objectIDs[1] = new ConstructableObject("wall", 1, true);
-        objectIDs[2] = new ConstructableObject("floor", 2, false);
+        objectIDs[0] = new ConstructableObject("air", 0, sprites[0], false);
+        objectIDs[1] = new ConstructableObject("wall", 1, sprites[1], true);
+        objectIDs[2] = new ConstructableObject("floor", 2, sprites[2], false);
     }
 
     void ConstructNewObject(ConstructableObject objectProperties, Vector3 position)
@@ -110,7 +119,7 @@ public class ConstructionManager : MonoBehaviour
         ConstructedObject.AddComponent<BoxCollider2D>();
         ConstructedObject.AddComponent<ObjectData>();
 
-        ConstructedObject.GetComponent<SpriteRenderer>().sprite = sprites[objectID];
+        ConstructedObject.GetComponent<SpriteRenderer>().sprite = objectProperties.sprite;
         ConstructedObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Sliced;
         ConstructedObject.GetComponent<SpriteRenderer>().size = new Vector2(1, 1);
 
@@ -150,7 +159,7 @@ public class ConstructionManager : MonoBehaviour
         targetObject.GetComponent<ObjectData>().id = newObjectProperties.id;
         targetObject.GetComponent<ObjectData>().idName = newObjectProperties.name;
 
-        targetObject.GetComponent<SpriteRenderer>().sprite = sprites[newObjectProperties.id];
+        targetObject.GetComponent<SpriteRenderer>().sprite = newObjectProperties.sprite;
 
         bool notAir = newObjectProperties.id != 0;
 
