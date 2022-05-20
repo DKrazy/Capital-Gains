@@ -39,7 +39,7 @@ public class ConstructionManager : MonoBehaviour
     ConstructableObject[] objectIDs = new ConstructableObject[objects];
     public Sprite[] sprites = new Sprite[objects];
 
-    ConstructableObject[,] grid = new ConstructableObject[50, 50];
+    int[,] grid = new int[50, 50];
 
     private void Awake()
     {
@@ -49,11 +49,11 @@ public class ConstructionManager : MonoBehaviour
     private void Start()
     {
         //Creates a starting grid of air tiles, 50x50. From there you can change whatever is on the grid.
-        for (int a = -25; a <= 25; a++)
+        for (int a = 0; a < 50; a++)
         {
             ConstructNewObject(objectIDs[0], new Vector3(a, 0, 0));
 
-            for (int b = -25; b < 25; b++)
+            for (int b = 1; b < 50; b++)
             {
                 ConstructNewObject(objectIDs[0], new Vector3(a, b, 0));
             }
@@ -80,10 +80,11 @@ public class ConstructionManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && constructionMode)
         {
-            ConstructNewObject(objectIDs[selectedID], worldPosition);
+            Vector3 worldPositionRnd = new Vector3(Mathf.Round(worldPosition.x), Mathf.Round(worldPosition.y), 0);
+            ConstructNewObject(objectIDs[selectedID], worldPositionRnd);
         }
 
-        Debug.Log(worldPosition);
+        Debug.Log(grid[0,0]);
     }
 
     void AssignObjectIDs()
@@ -103,6 +104,7 @@ public class ConstructionManager : MonoBehaviour
 
         ConstructedObject.AddComponent<SpriteRenderer>();
         ConstructedObject.AddComponent<BoxCollider2D>();
+        ConstructedObject.AddComponent<ObjectData>();
 
         ConstructedObject.GetComponent<SpriteRenderer>().sprite = sprites[objectID];
         ConstructedObject.GetComponent<SpriteRenderer>().drawMode = SpriteDrawMode.Sliced;
@@ -110,6 +112,12 @@ public class ConstructionManager : MonoBehaviour
 
         ConstructedObject.GetComponent<BoxCollider2D>().enabled = objectProperties.collide;
         ConstructedObject.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
+
+        ConstructedObject.GetComponent<ObjectData>().id = objectProperties.id;
+        ConstructedObject.GetComponent<ObjectData>().x = position.x;
+        ConstructedObject.GetComponent<ObjectData>().y = position.y;
+
+        grid[(int)ConstructedObject.GetComponent<ObjectData>().x, (int)ConstructedObject.GetComponent<ObjectData>().y] = ConstructedObject.GetComponent<ObjectData>().id;
 
         if (objectProperties.collide)
         {
