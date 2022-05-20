@@ -24,17 +24,14 @@ public class ConstructionManager : MonoBehaviour
         public string name;
         public int id;
 
-        public Sprite spRd;
-
         public bool collide;
 
-        public ConstructableObject(string n, int iD, Sprite sprt, bool col)
+        public ConstructableObject(string n, int iD, bool col)
         {
             //I still don't really understand why structs are like this, but it works, so whatever.
 
             name = n;
             id = iD;
-            spRd = sprt;
             collide = col;
         }
     }
@@ -96,9 +93,9 @@ public class ConstructionManager : MonoBehaviour
 
     void AssignObjectIDs()
     {
-        objectIDs[0] = new ConstructableObject("air", 0, sprites[0], false);
-        objectIDs[1] = new ConstructableObject("wall", 1, sprites[1], true);
-        objectIDs[2] = new ConstructableObject("floor", 2, sprites[2], false);
+        objectIDs[0] = new ConstructableObject("air", 0, false);
+        objectIDs[1] = new ConstructableObject("wall", 1, true);
+        objectIDs[2] = new ConstructableObject("floor", 2, false);
     }
 
     void ConstructNewObject(ConstructableObject objectProperties, Vector3 position)
