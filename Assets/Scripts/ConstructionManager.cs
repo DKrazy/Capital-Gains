@@ -173,10 +173,6 @@ public class ConstructionManager : MonoBehaviour
 
         targetObject.GetComponent<SpriteRenderer>().sprite = newObjectProperties.sprite;
 
-        bool notAir = newObjectProperties.id != 0;
-
-        targetObject.GetComponent<SpriteRenderer>().enabled = notAir;
-
         bool hasCollision = targetObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb2D);
 
         if (newObjectProperties.collide != hasCollision)
