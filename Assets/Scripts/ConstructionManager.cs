@@ -121,7 +121,7 @@ public class ConstructionManager : MonoBehaviour
 
     void AssignObjectIDs()
     {
-        objectIDs[0] = new ConstructableObject("air", 0, sprites[0], false, desObjsLists[0]);
+        objectIDs[0] = new ConstructableObject("grass", 0, sprites[0], false, desObjsLists[0]);
         objectIDs[1] = new ConstructableObject("wall", 1, sprites[1], true, desObjsLists[1]);
         objectIDs[2] = new ConstructableObject("floor", 2, sprites[2], false , desObjsLists[2]);
     }
@@ -157,11 +157,6 @@ public class ConstructionManager : MonoBehaviour
         {
             ConstructedObject.AddComponent<Rigidbody2D>();
             ConstructedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        }
-
-        if (objectProperties.id == 0)
-        {
-            ConstructedObject.GetComponent<SpriteRenderer>().enabled = false;
         }
 
         gridIDs[x, y] = ConstructedObject.GetComponent<ObjectData>().id;

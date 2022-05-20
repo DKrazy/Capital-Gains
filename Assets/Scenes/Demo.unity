@@ -1882,7 +1882,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constructionMode: 0
   sprites:
-  - {fileID: 21300000, guid: 4c9f6402ff35ea14787ffedd5d09c9e6, type: 3}
+  - {fileID: 21300000, guid: f35d4ac36acab614f8aa6a3cc92e54db, type: 3}
   - {fileID: 21300000, guid: 4c9f6402ff35ea14787ffedd5d09c9e6, type: 3}
   - {fileID: 21300000, guid: cb62cf07e6a48604e9675e8de71ca7c0, type: 3}
 --- !u!4 &1894097647
