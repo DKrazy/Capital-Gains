@@ -10,6 +10,9 @@ public class ConstructionManager : MonoBehaviour
 
     Vector3 worldPosition;
 
+    static int grdX = 50;
+    static int grdY = 50;
+
     public int selectedID;
 
     [SerializeField] bool constructionMode = false;
@@ -39,7 +42,8 @@ public class ConstructionManager : MonoBehaviour
     ConstructableObject[] objectIDs = new ConstructableObject[objects];
     public Sprite[] sprites = new Sprite[objects];
 
-    int[,] grid = new int[50, 50];
+    int[,] gridIDs = new int[grdX, grdY];
+    GameObject[,] gridObjects = new GameObject[grdX, grdY];
 
     private void Awake()
     {
@@ -84,7 +88,7 @@ public class ConstructionManager : MonoBehaviour
             ConstructNewObject(objectIDs[selectedID], worldPositionRnd);
         }
 
-        Debug.Log(grid[0,0]);
+        Debug.Log(gridObjects[0,0]);
     }
 
     void AssignObjectIDs()
@@ -117,7 +121,10 @@ public class ConstructionManager : MonoBehaviour
         ConstructedObject.GetComponent<ObjectData>().x = position.x;
         ConstructedObject.GetComponent<ObjectData>().y = position.y;
 
-        grid[(int)ConstructedObject.GetComponent<ObjectData>().x, (int)ConstructedObject.GetComponent<ObjectData>().y] = ConstructedObject.GetComponent<ObjectData>().id;
+        int x = (int)ConstructedObject.GetComponent<ObjectData>().x;
+        int y = (int)ConstructedObject.GetComponent<ObjectData>().y;
+
+        ConstructedObject.gameObject.name = $"{x}:{y}";
 
         if (objectProperties.collide)
         {
@@ -129,5 +136,9 @@ public class ConstructionManager : MonoBehaviour
         {
             ConstructedObject.GetComponent<SpriteRenderer>().enabled = false;
         }
+
+        gridIDs[x, y] = ConstructedObject.GetComponent<ObjectData>().id;
+
+        gridObjects[x, y] = ConstructedObject;
     }
 }
