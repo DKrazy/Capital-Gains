@@ -7,5 +7,5 @@ public class ObjectData : MonoBehaviour
     public string idName;
     public int id;
 
-    public float x, y;
+    public int x, y;
 }

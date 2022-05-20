@@ -6,7 +6,7 @@ public class ConstructionManager : MonoBehaviour
 {
     //This is a primitive implementation of the construction system. Everything here is subject to change.
 
-    readonly static int objects = 3;
+    const int objects = 3;
 
     Vector3 worldPosition;
 
@@ -28,7 +28,9 @@ public class ConstructionManager : MonoBehaviour
 
         public bool collide;
 
-        public ConstructableObject(string n, int iD, Sprite sprt, bool col)
+        public List<int> destructableObjects;
+
+        public ConstructableObject(string n, int iD, Sprite sprt, bool col, List<int> desObjs)
         {
             //I still don't really understand why structs are like this, but it works, so whatever.
 
@@ -36,6 +38,7 @@ public class ConstructionManager : MonoBehaviour
             id = iD;
             sprite = sprt;
             collide = col;
+            destructableObjects = desObjs;
         }
     }
 
@@ -44,6 +47,12 @@ public class ConstructionManager : MonoBehaviour
 
     int[,] gridIDs = new int[grdX, grdY];
     GameObject[,] gridObjects = new GameObject[grdX, grdY];
+
+    public List<int>[] desObjsLists = new List<int>[objects] { 
+        new List<int>() { 1, 2 },
+        new List<int>() { 0, 2 },
+        new List<int>() { 0 }
+    };
 
     private void Awake()
     {
@@ -91,20 +100,30 @@ public class ConstructionManager : MonoBehaviour
             int x = (int)worldPositionRnd.x;
             int y = (int)worldPositionRnd.y;
 
-            if(gridIDs[x, y] == 0 || selectedID == 0)
+            int currentObjectID = gridObjects[x, y].GetComponent<ObjectData>().id;
+
+            bool canPlace = false;
+
+            foreach (int i in desObjsLists[selectedID])
+            {
+                if (i == currentObjectID)
+                {
+                    canPlace = true;
+                }
+            }
+
+            if (canPlace)
             {
                 ChangeObjectID((int)worldPositionRnd.x, (int)worldPositionRnd.y, objectIDs[selectedID]);
             }
         }
-
-        Debug.Log(worldPositionRnd);
     }
 
     void AssignObjectIDs()
     {
-        objectIDs[0] = new ConstructableObject("air", 0, sprites[0], false);
-        objectIDs[1] = new ConstructableObject("wall", 1, sprites[1], true);
-        objectIDs[2] = new ConstructableObject("floor", 2, sprites[2], false);
+        objectIDs[0] = new ConstructableObject("air", 0, sprites[0], false, desObjsLists[0]);
+        objectIDs[1] = new ConstructableObject("wall", 1, sprites[1], true, desObjsLists[1]);
+        objectIDs[2] = new ConstructableObject("floor", 2, sprites[2], false , desObjsLists[2]);
     }
 
     void ConstructNewObject(ConstructableObject objectProperties, Vector3 position)
@@ -126,11 +145,11 @@ public class ConstructionManager : MonoBehaviour
 
         ConstructedObject.GetComponent<ObjectData>().id = objectProperties.id;
         ConstructedObject.GetComponent<ObjectData>().idName = objectProperties.name;
-        ConstructedObject.GetComponent<ObjectData>().x = position.x;
-        ConstructedObject.GetComponent<ObjectData>().y = position.y;
+        ConstructedObject.GetComponent<ObjectData>().x = (int)position.x;
+        ConstructedObject.GetComponent<ObjectData>().y = (int)position.y;
 
-        int x = (int)ConstructedObject.GetComponent<ObjectData>().x;
-        int y = (int)ConstructedObject.GetComponent<ObjectData>().y;
+        int x = ConstructedObject.GetComponent<ObjectData>().x;
+        int y = ConstructedObject.GetComponent<ObjectData>().y;
 
         ConstructedObject.name = $"{x}:{y}";
 
