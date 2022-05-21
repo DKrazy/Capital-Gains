@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ConstructionManager : MonoBehaviour
 {
-    //This is a primitive implementation of the construction system. Everything here is subject to change.
+    //The construction system. A script written so badly, any experienced programmer would probably take one look at
+    //it and end it right there. But I'm not smart so this'll do.
 
     const int objects = 3;
 
@@ -13,9 +14,9 @@ public class ConstructionManager : MonoBehaviour
     readonly static int grdX = 50;
     readonly static int grdY = 50;
 
-    int selectedID;
+    public int selectedID;
 
-    [SerializeField] bool constructionMode = false;
+    public bool constructionMode = false;
 
     //It took me so fucking long to figure out how to use structs, but now that I know I've got to say it's
     //helping me out a lot.
@@ -61,7 +62,7 @@ public class ConstructionManager : MonoBehaviour
 
     private void Start()
     {
-        //Creates a starting grid of air tiles, 50x50. From there you can change whatever is on the grid.
+        //Creates a starting grid of grass tiles, 50x50. From there you can change whatever is on the grid.
         for (int a = 0; a < 50; a++)
         {
             ConstructNewObject(objectIDs[0], new Vector3(a, 0, 0));
@@ -97,6 +98,8 @@ public class ConstructionManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && constructionMode && inGrid)
         {
+            //Changes the ID of a block in a specific position.
+
             int x = (int)worldPositionRnd.x;
             int y = (int)worldPositionRnd.y;
 
