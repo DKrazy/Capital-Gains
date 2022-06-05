@@ -131,6 +131,8 @@ public class ConstructionManager : MonoBehaviour
 
     void ConstructNewObject(ConstructableObject objectProperties, Vector3 position)
     {
+        //Creates a grid object. Used to generate the grid at the beginning.
+
         GameObject ConstructedObject = new GameObject();
 
         ConstructedObject.GetComponent<Transform>().position = position;
@@ -169,6 +171,8 @@ public class ConstructionManager : MonoBehaviour
 
     void ChangeObjectID(int x, int y, ConstructableObject newObjectProperties)
     {
+        //Changes the ID of the object on a specific grid coordinate.
+
         GameObject targetObject = gridObjects[x, y];
 
         targetObject.GetComponent<ObjectData>().id = newObjectProperties.id;
